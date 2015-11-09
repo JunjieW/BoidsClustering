@@ -16,4 +16,13 @@ public class Entity {
 		m_featureDimension = entity_features.length;
 	}
 	
+	@Override
+	public String toString() {
+		String str = "[";
+		for (int i = 0; i < m_featureDimension; i++)
+			str += m_features[i] + ",";
+		str += "]";
+		return str;
+	}
+	
 }

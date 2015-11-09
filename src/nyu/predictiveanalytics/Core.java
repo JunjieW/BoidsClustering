@@ -23,7 +23,7 @@ public class Core {
 		Vector<Vector<Integer>> result = myKmeans.getClusterByEntityIndex();
 		int index_cluster = 0;
 		for(Vector<Integer> cluster : result){
-			System.out.print("Cluser " + index_cluster + " :");
+			System.out.print("Cluser " + index_cluster + ": ");
 			for(int entity_index : cluster){
 				System.out.print(entity_index + ",");
 			}

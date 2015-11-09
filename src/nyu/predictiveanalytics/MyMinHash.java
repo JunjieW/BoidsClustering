@@ -13,11 +13,12 @@ public class MyMinHash implements DistanceMeasure{
 	
 	private int m_numOfdimenstions;
 	
-/*	public interface HashFunction{
+	public interface HashFunction{
 		public int doHash(int x);
 	};
-*/	
+	
 	public MyMinHash(){
+		useDefaultHashFunctions = true;
 		m_numOfHashFunc = DEFAULT_NUM_OF_HASH_FUNCTIONS;
 		setDefaultHashFunctions();		
 	}
@@ -25,7 +26,7 @@ public class MyMinHash implements DistanceMeasure{
 	public MyMinHash(HashFunction[] hashFunctions){
 		useDefaultHashFunctions = false;		
 		m_numOfHashFunc = hashFunctions.length;
-		this.m_arrayHashFunctions = hashFunctions;
+		m_arrayHashFunctions = hashFunctions;
 	}
 	
 	// Set Default hash functions
@@ -45,6 +46,8 @@ public class MyMinHash implements DistanceMeasure{
 				new HashFunction() {
 					public int doHash(int x) { return (4*x + 6) % m_numOfdimenstions;}}
 			};
+		
+		
 	}
 
 	// Set user-defined hash functions and get functions count
@@ -63,6 +66,7 @@ public class MyMinHash implements DistanceMeasure{
     }
 	
 	private void computeDimensionHashTable() {
+;		m_dimentionHashTable = new int[m_numOfdimenstions][m_numOfHashFunc];
 		for(int i = 0; i < m_numOfdimenstions; i++) {
 			for (int j = 0; j < m_numOfHashFunc; j++){ 
 				m_dimentionHashTable[i][j] = this.m_arrayHashFunctions[j].doHash(i);
