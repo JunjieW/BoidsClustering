@@ -140,6 +140,7 @@ public class MinHash<T> {
 		set1.add("SAN");
 		
 		Set<String> set2 = new HashSet<String>();
+		set2.add("USA");
 		set2.add("FRANCISCO");
 		set2.add("MISSION");
 		set2.add("SAN");
