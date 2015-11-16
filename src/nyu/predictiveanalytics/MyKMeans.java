@@ -4,10 +4,10 @@ import java.util.Random;
 import java.util.Vector;
 
 public class MyKMeans {
-	private static boolean IS_DEBUG = false;
+	private static boolean IS_DEBUG = true;
 	
     private Random m_rand;
-    private DistanceMeasure m_dm;
+    public DistanceMeasure m_dm;
     
 	private static double STANDARD_OF_CENTROID_CHANGE = 0.0001;
 	
@@ -132,9 +132,9 @@ public class MyKMeans {
                 	throw new RuntimeException("[K-Means iteration] Cluster[" + i + "] gets empty");
                 
                 // create new virtual centroid[i]
-                Entity newCentroid = new Entity(new float[m_dimensionOfEntityLength]);
+                Entity newCentroid = new Entity(new double[m_dimensionOfEntityLength]);
                 for (int j = 0; j < m_dimensionOfEntityLength; j++) {
-                	newCentroid.m_features[j] = (float) sumClusterFeatureValue[i][j] / countClusterMember[i];
+                	newCentroid.m_features[j] = (double) sumClusterFeatureValue[i][j] / countClusterMember[i];
                 }
                 // compare with the standard of change
                 if(m_dm.computeDistance(newCentroid, m_centroids[i]) > STANDARD_OF_CENTROID_CHANGE) {
