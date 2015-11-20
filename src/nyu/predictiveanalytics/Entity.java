@@ -2,9 +2,9 @@ package nyu.predictiveanalytics;
 
 public class Entity {
 	
-	int m_featureDimension;
+	public int m_featureDimension;
 	//int[] m_features;
-	double[] m_features;
+	public double[] m_features;
 	
 	
 	public Entity(int dimension){

@@ -3,6 +3,8 @@ package nyu.predictiveanalytics;
 import java.util.Random;
 import java.util.Vector;
 
+import nyu.predictiveanalytics.distance.DistanceMeasure;
+
 public class MyKMeans {
 	private static boolean IS_DEBUG = true;
 	
@@ -128,8 +130,8 @@ public class MyKMeans {
             for (int i = 0; i < this.m_numClusters; i++) {
             	
             	//TODO: Bug fixing for (cluster member = 0)
-                if (countClusterMember[i] <= 0)
-                	throw new RuntimeException("[K-Means iteration] Cluster[" + i + "] gets empty");
+                //if (countClusterMember[i] <= 0)
+                	//throw new RuntimeException("[K-Means iteration] Cluster[" + i + "] gets empty");
                 
                 // create new virtual centroid[i]
                 Entity newCentroid = new Entity(new double[m_dimensionOfEntityLength]);

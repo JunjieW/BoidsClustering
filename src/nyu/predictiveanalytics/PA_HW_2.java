@@ -3,8 +3,11 @@ package nyu.predictiveanalytics;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import net.sf.javaml.distance.DistanceMeasure;
 import nyu.predictiveanalytics.MyKMeans;
-import nyu.predictiveanalytics.MyMinHash;
+import nyu.predictiveanalytics.distance.MyCosineDistance;
+import nyu.predictiveanalytics.distance.MyEuclideanDistance;
+import nyu.predictiveanalytics.distance.MyMinHash;
 import nyu.predictiveanalytics.tfidf.DocParser;
 
 
@@ -13,43 +16,50 @@ public class PA_HW_2 {
 	private static Entity[] test_docSet;
 	
 	public static void main(String[] args) {
-		initIrisSet();
-		initDocSet();
+		PA_HW_2 executer = new PA_HW_2();
 		
+		executer.initIrisSet();
+		executer.initDocSet();
+		
+		//===== Preprocess (remove stop words, stemming) & Transform docs into TF-IDF matix =======
 		String docPath = "C:\\Users\\DC-IT-Dev\\Desktop\\NYU2015FALL-Course-Material\\PA\\homework-2\\articles";
     	DocParser docParser = new DocParser(docPath);
     	ArrayList<double[]> tfidfMatrix = docParser.tfIdfCalculator();
+    	
+    	//===== Transform tf-idf matrix into universal data type (entity) ======
     	Entity[] my_doc_set = new Entity[tfidfMatrix.size()];
     	for(int i = 0; i < tfidfMatrix.size(); i++){
     		double[] temp = new double[tfidfMatrix.get(i).length];
-    		System.arraycopy( tfidfMatrix.get(i), 0, temp, 0, tfidfMatrix.size() );
+    		System.arraycopy( tfidfMatrix.get(i), 0, temp, 0, tfidfMatrix.size());
     		Entity temEntity = new Entity(temp);
     		my_doc_set[i] = temEntity;
     	}
     	
-    	
+    	//=========== Execute KMeans with various methods of distance measurement ===========
 		MyEuclideanDistance dm_eculidea = new MyEuclideanDistance();
-		MyMinHash dm_minhash = new MyMinHash();
 		MyCosineDistance dm_cosine = new MyCosineDistance();
+		MyMinHash dm_minhash = new MyMinHash();
 		
-		MyKMeans myKmeans_euclidean = new MyKMeans(4, 20, dm_eculidea, my_doc_set);
-		runKmeans(myKmeans_euclidean);
+		int numOfClusters = 2;
+		int numOfIterations = 20;
+		MyKMeans myKmeans_euclidean = new MyKMeans(numOfClusters, numOfIterations, dm_eculidea, my_doc_set);
+		executer.runKmeans(myKmeans_euclidean);
 		
-		MyKMeans myKmeans_cosine = new MyKMeans(4, 20, dm_cosine, my_doc_set);
-		runKmeans(myKmeans_cosine);
+		MyKMeans myKmeans_cosine = new MyKMeans(numOfClusters, numOfIterations, dm_cosine, my_doc_set);
+		executer.runKmeans(myKmeans_cosine);
 		
-		MyKMeans myKmeans_minhash = new MyKMeans(4, 20, dm_minhash, my_doc_set);
-		runKmeans(myKmeans_minhash);
+		MyKMeans myKmeans_minhash = new MyKMeans(numOfClusters, numOfIterations, dm_minhash, my_doc_set);
+		executer.runKmeans(myKmeans_minhash);
 		
 	}
 	
-	private static void runKmeans(MyKMeans myKmeans){
+	private void runKmeans(MyKMeans myKmeans){
 		if (myKmeans.m_dm.getClass() == MyEuclideanDistance.class){
 			System.out.print("=========== K-means with Euclidean Distance ==============\n");
 		}else if (myKmeans.m_dm.getClass() == MyCosineDistance.class) {
-			System.out.print("=========== K-means with cosine Distance =================\n");
+			System.out.print("=========== K-means with Cosine Distance =================\n");
 		}else if (myKmeans.m_dm.getClass() == MyMinHash.class) {
-			System.out.print("=========== K-means with Minhas/Jarcard Distance =========\n");
+			System.out.print("=========== K-means with Minhash/Jarcard Distance =========\n");
 		}
 		
 		myKmeans.doClustering();
@@ -68,9 +78,7 @@ public class PA_HW_2 {
 		}
 	}
 	
-	
-	
-	private static void initDocSet(){
+	private void initDocSet(){
 		test_docSet = new Entity[] {
 				new Entity(new double[] { (double) 1, (double) 0, (double) 0, (double) 1, (double) 0 }),
 				new Entity(new double[] { (double) 0, (double) 0, (double) 1, (double) 0, (double) 0 }),
@@ -79,7 +87,7 @@ public class PA_HW_2 {
 		};
 	}
 	
-	private static void initIrisSet(){
+	private void initIrisSet(){
 		iris_entitySet = new Entity[] { new Entity(new double[] { (double) 5.1, (double) 3.5, (double) 1.4, (double) 0.2 }),
 				new Entity(new double[] { (double) 4.9, (double) 3, (double) 1.4, (double) 0.2 }),
 				new Entity(new double[] { (double) 4.7, (double) 3.2, (double) 1.3, (double) 0.2 }),
