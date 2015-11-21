@@ -35,12 +35,14 @@ public class PA_HW_2 {
     		my_doc_set[i] = temEntity;
     	}
     	
+    	ExportManager.exportToCsv(my_doc_set);
+    	
     	//=========== Execute KMeans with various methods of distance measurement ===========
 		MyEuclideanDistance dm_eculidea = new MyEuclideanDistance();
 		MyCosineDistance dm_cosine = new MyCosineDistance();
 		MyMinHash dm_minhash = new MyMinHash();
 		
-		int numOfClusters = 2;
+		int numOfClusters = 3;
 		int numOfIterations = 20;
 		MyKMeans myKmeans_euclidean = new MyKMeans(numOfClusters, numOfIterations, dm_eculidea, my_doc_set);
 		executer.runKmeans(myKmeans_euclidean);
