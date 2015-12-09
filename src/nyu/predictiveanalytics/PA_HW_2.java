@@ -22,7 +22,7 @@ public class PA_HW_2 {
 		executer.initDocSet();
 		
 		//===== Preprocess (remove stop words, stemming) & Transform docs into TF-IDF matix =======
-		String docPath = "C:\\Users\\DC-IT-Dev\\Desktop\\NYU2015FALL-Course-Material\\PA\\homework-2\\articles";
+		String docPath = "./articles";
     	DocParser docParser = new DocParser(docPath);
     	ArrayList<double[]> tfidfMatrix = docParser.tfIdfCalculator();
     	
